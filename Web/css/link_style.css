@@ -1,0 +1,18 @@
+#violation{
+	position: absolute;
+	text-align: center;
+	top:50%;
+	left:25%;
+}
+#roadfee{
+	position: absolute;
+	text-align: center;
+	top:50%;
+	left:50%;
+}
+#track{
+	position: absolute;
+	text-align: center;
+	top:50%;
+	left:75%;
+}
