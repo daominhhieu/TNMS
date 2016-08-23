@@ -1,18 +1,67 @@
+.head{
+	position: absolute;
+	left:0;
+	right:0;
+	top:5%;
+	background-image:url("../images/road_pattern.png");
+	background-repeat:repeat-x;
+	height:100px;
+}
+.foot{
+	position: absolute;
+	top:80%;
+	background-image:url("../images/road_pattern.png");
+	background-repeat:repeat-x;
+	height:100px;
+	left:0;
+	right:0
+}
 #violation{
 	position: absolute;
-	text-align: center;
 	top:50%;
-	left:25%;
+	left:50%;
+	display: block;
+	margin: auto;
+}
+.violation{
+	position: relative;
+	top:-121px;
+	left:-32px;
 }
 #roadfee{
 	position: absolute;
-	text-align: center;
 	top:50%;
 	left:50%;
+	display: block;
+	margin: auto;
+}
+.roadfee{
+	position: relative;
+	left:-36px;
 }
 #track{
 	position: absolute;
-	text-align: center;
 	top:50%;
-	left:75%;
+	left:50%;
+	display: block;
+	margin: auto;
+}
+.track{
+	position: relative;
+	bottom:-121px;
+	left:-23px;
+}
+body{
+	background-image: url("../images/index_background.png");
+	background-repeat: no-repeat;	
+}
+#outFrame{
+	position:  absolute;
+	top:50%;
+	left:50%;
+}
+.frame{
+	position: relative;
+	top:-200px;
+	left:-156px;
 }
