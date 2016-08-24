@@ -51,9 +51,15 @@
 .track:hover{
 	opacity: 1;
 }
-body{
-	background-image: url("../images/index_background.png");
-	background-repeat: no-repeat;	
+.logout{
+	position: relative;
+	top:-386px;
+	left:-428px;
+	opacity: 0.5;
+	-webkit-transition-duration: 0.4s;
+}
+.logout:hover{
+	opacity: 1;
 }
 #outFrame{
 	position:  absolute;
