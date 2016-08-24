@@ -14,42 +14,42 @@
 	background-repeat:repeat-x;
 	height:100px;
 	left:0;
-	right:0
+	right:0;
 }
-#violation{
+#Link{
 	position: absolute;
 	top:50%;
 	left:50%;
-	display: block;
-	margin: auto;
 }
 .violation{
 	position: relative;
-	top:-121px;
-	left:-32px;
+	top:-170px;
+	left:-47px;
+	opacity: 0.5;
+	-webkit-transition-duration: 0.4s;
 }
-#roadfee{
-	position: absolute;
-	top:50%;
-	left:50%;
-	display: block;
-	margin: auto;
+.violation:hover{
+	opacity: 1;
 }
 .roadfee{
 	position: relative;
-	left:-36px;
+	top:-162px;
+	left:-47px;
+	opacity: 0.5;
+	-webkit-transition-duration: 0.4s;
 }
-#track{
-	position: absolute;
-	top:50%;
-	left:50%;
-	display: block;
-	margin: auto;
+.roadfee:hover{
+	opacity: 1;
 }
 .track{
 	position: relative;
-	bottom:-121px;
-	left:-23px;
+	top:-154px;
+	left:-47px;
+	opacity: 0.5;
+	-webkit-transition-duration: 0.4s;
+}
+.track:hover{
+	opacity: 1;
 }
 body{
 	background-image: url("../images/index_background.png");
@@ -60,7 +60,7 @@ body{
 	top:50%;
 	left:50%;
 }
-.frame{
+#frame{
 	position: relative;
 	top:-200px;
 	left:-156px;
