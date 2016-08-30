@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Login</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="{{ url_for('static',filename='css/bootstrap.min.css') }}">
+	<link rel="shortcut icon" href="{{ url_for('static', filename='icon.ico') }}">
+</head>
+<header>
+	<div class="container-fluid">
+		<div class="navbar-header">
+		  <a class="navbar-brand" href="/"><img style="max-width:60px;" src="{{ url_for('static', filename='images/brand.png') }}"></a>
+		</div>
+		<form class="navbar-form navbar-right" method="post">
+		  <div class="form-group">
+			<input type="text" class="form-control" name="username" placeholder="Phone Number" value="{{request.form.username}}">
+		  </div>
+		  <div class="form-group">
+			<input type="password" class="form-control" name="password" placeholder="Password" value="{{request.form.password}}">
+		  </div>
+		  <input type="submit" class="btn btn-default" value="Login">
+		</form>
+	</div>
+	<h1>{{ error }}</h1>
+</header>
+<body>
+	<div class="jumbotron" style="margin-top: 100px; margin-left: 100px; border-radius: 10px; max-width: 500px;">
+	<div class="container">
+	{% block page_not_found %}
+	  <h1>About</h1>
+	  <p>This is basicly just a bait for you to click the button!</p>
+	{% endblock %}
+	  <p><a class="btn btn-primary btn-lg" href="#" role="button">Useless Button!</a></p>
+	</div>
+	</div>
+	<script src="//code.jquery.com/jquery-3.1.0.min.js"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>	
+</body>
+</html>

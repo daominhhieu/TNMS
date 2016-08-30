@@ -1,21 +1,3 @@
-img{
-	opacity:0.5;
-	-webkit-transition-duration: 0.4s;
-}
-img:hover{
-	opacity:1;
-}
-table, th, td{
-	margin: 50px auto;
-	border-collapse: collapse;
-	border:2px groove lightgrey;
-	width:1000px;
-	padding:10px 0 10px 0;
-}
-table, td{
-	padding-left:10px;
-	padding-right:10px;
-}
 .Bigtitle{
 	font-family: Arial;
 	color:white;
