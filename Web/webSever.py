@@ -1,9 +1,5 @@
 from flask import Flask, render_template, request, flash, url_for, redirect
 app = Flask(__name__)
-import data
-v = data.violation()
-rf = data.roadfee()
-t = data.track()
 
 @app.errorhandler(404)
 def page_not_found(e):
