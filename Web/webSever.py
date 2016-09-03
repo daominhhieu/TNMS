@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, flash, url_for, redirect
 app = Flask(__name__)
+import data_manager
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -13,12 +14,44 @@ def page_not_found(e):
 def page_not_found(e):
     return render_template("500.html")
 
+@app.route('/signup/', methods=['GET','POST'])
+def signup():
+    error = None
+    try:
+        if request.method == "POST":
+            sign_number     = request.form['sign_phone_number']
+            license_plate   = request.form['license_plate']
+            sign_password   = request.form['sign_password']
+            retype_password = request.form['retype_password']
+
+            if( (len(sign_number) == 10 or len(sign_number) == 11) and sign_number.isdigit() == True ):
+                error = 'Vailid Phone Number'
+                    
+                if( len(sign_password) > 5 and sign_password == retype_password and sign_password.isdigit() == False and sign_password.isalpha() == False ):
+                    error = '/n Vailid password'
+
+                    if(len(license_plate) > 7 and len(license_plate) < 10 and license_plate.isdigit() == False and license_plate.isalpha() == False ):
+                        data_manager.usr_database('usr_write', sign_number, license_plate, sign_password)
+                        return redirect(url_for('info'))
+                    else:
+                        error = '/n Invailid License Plate'
+                else:
+                    error = '/n Invailid password'
+            else:
+                error = '/n Invailid Phone Number'
+
+        return render_template("signup.html", error = error)
+
+    except Exception as e:
+        flash(e)
+        return render_template("signup.html", error = error)
+
 @app.route('/', methods=['GET','POST'])
 def login():
     error = None
     try:
         if request.method == "POST":
-            attempted_username = request.form['username']
+            attempted_username = request.form['phone_number']
             attempted_password = request.form['password']
             
             flash(attempted_username)
@@ -39,7 +72,7 @@ def login():
 
 @app.route('/info/', methods=['GET','POST'])
 def info():
-    return render_template("info.html", tv=v[0], fv=v[1], lv=v[2], vv=v[3], trf=rf[0], frf=rf[1], lrf=rf[2], tt=t[0], lt=t[1])
+    return 'NOTHING HERE YET!'
 
 if __name__ == "__main__":
     app.secret_key = 'super secret key'
