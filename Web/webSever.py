@@ -1,6 +1,6 @@
-from flask import Flask, render_template, request, flash, url_for, redirect
+from flask import Flask, render_template, request, flash, url_for, redirect, make_response
 app = Flask(__name__)
-import data_manager
+from data_manager import  usr_data, usr_database
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -16,7 +16,10 @@ def page_not_found(e):
 
 @app.route('/signup/', methods=['GET','POST'])
 def signup():
-    error = None
+    error = ''
+    number_exists = False
+    license_exists = False
+    x = usr_database('read',0,0,0)
     try:
         if request.method == "POST":
             sign_number     = request.form['sign_phone_number']
@@ -24,15 +27,26 @@ def signup():
             sign_password   = request.form['sign_password']
             retype_password = request.form['retype_password']
 
-            if( (len(sign_number) == 10 or len(sign_number) == 11) and sign_number.isdigit() == True ):
+            for i in range(len(x)):
+                if sign_number == x[i][0]:
+                    number_exists = True
+                    break
+            for j in  range(len(x)):
+                if license_plate == x[j][1]:
+                    license_exists = True
+                    break 
+
+            if( (len(sign_number) == 10 or len(sign_number) == 11) and sign_number.isdigit() == True and number_exists == False ):
                 error = 'Vailid Phone Number'
                     
                 if( len(sign_password) > 5 and sign_password == retype_password and sign_password.isdigit() == False and sign_password.isalpha() == False ):
                     error = '/n Vailid password'
 
-                    if(len(license_plate) > 7 and len(license_plate) < 10 and license_plate.isdigit() == False and license_plate.isalpha() == False ):
-                        data_manager.usr_database('usr_write', sign_number, license_plate, sign_password)
-                        return redirect(url_for('info'))
+                    if(len(license_plate) > 7 and len(license_plate) < 10 and license_plate.isdigit() == False and license_plate.isalpha() == False and license_exists == False ):
+                        usr_database('write', sign_number, license_plate, sign_password)
+                        cookie = make_response(redirect(url_for('info')))
+                        cookie.set_cookie('number', sign_number)
+                        return cookie
                     else:
                         error = '/n Invailid License Plate'
                 else:
@@ -46,21 +60,36 @@ def signup():
         flash(e)
         return render_template("signup.html", error = error)
 
-@app.route('/', methods=['GET','POST'])
+@app.route('/')
+def origianl():
+    return redirect(url_for('login')) 
+
+@app.route('/login/', methods=['GET','POST'])
 def login():
-    error = None
+    error=''
+    number_exists = False
+    x = usr_database('read',0,0,0)
     try:
         if request.method == "POST":
-            attempted_username = request.form['phone_number']
-            attempted_password = request.form['password']
-            
-            flash(attempted_username)
-            flash(attempted_password)
+            login_number = request.form['phone_number']
+            login_password = request.form['password']
 
-            if (attempted_username == "ad" and attempted_password == "123"):
-                return redirect(url_for('info'))
+            for i in range(len(x)):
+                if login_number == x[i][0]:
+                    correct_number_row = i
+                    number_exists = True
+                    break   
+
+            if (number_exists == True):
+                error = 'Vailid Phone Number'
+                if( login_password == x[correct_number_row][2]):
+                    cookie = make_response(redirect(url_for('info')))
+                    cookie.set_cookie('number', login_number)
+                    return cookie
+                else:
+                    error = "Invailid password"
             else:
-                error = "Cannot Login!"
+                error = "Number did not sign up"
 
         return render_template("index.html", error = error)
             
@@ -69,10 +98,39 @@ def login():
         flash(e)
         return render_template("index.html", error = error)
 
+@app.route('/logout/', methods=['GET','POST'])
+def logout():
+    
+    cookie = make_response(redirect(url_for('login')))
+    cookie.set_cookie('number', expires=0)
+    return cookie
 
-@app.route('/info/', methods=['GET','POST'])
+
+
+
+
+@app.route('/info/')
 def info():
-    return 'NOTHING HERE YET!'
+
+    
+    
+    usrNumber = request.cookies.get('number')
+
+    vr = usr_data(usrNumber, 'violation_read',0,0,0)
+    rfr= usr_data(usrNumber, 'roadfee_read',0,0,0)
+    tr = usr_data(usrNumber, 'track_read',0,0,0)
+    Lplate = usr_database('read',0 ,0 ,0)
+
+    vl = len(vr)
+    rfl= len(rfr)
+    trl= len(tr)
+
+    for i in range(len(Lplate)):
+        if Lplate[i][0]  == usrNumber:
+            usr_plate = Lplate[i][1]
+            break
+    
+    return render_template('info.html', vr = vr, rfr = rfr, tr = tr, vl = vl, rfl = rfl, trl = trl, usr_plate = usr_plate, usrName = usrNumber)
 
 if __name__ == "__main__":
     app.secret_key = 'super secret key'
